@@ -1,0 +1,26 @@
+{
+  "name": "node-typescript-starter",
+  "version": "3.0.0",
+  "description": "",
+  "scripts": {
+    "tsc:watch": "tsc -w",
+    "tsc:build": "tsc",
+    "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
+    "test": "mocha dist/test"
+  },
+  "author": "marcin.baraniecki@softwaremill.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/express": "^4.16.0",
+    "@types/mocha": "^5.2.4",
+    "@types/node": "~10.5.1",
+    "chai": "~3.5.0",
+    "mocha": "^5.2.0",
+    "nodemon": "~1.17.5",
+    "typescript": "~2.9.2"
+  }
+}
