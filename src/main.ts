@@ -25,6 +25,16 @@ app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddlew
   }
 });
 
+app.get(`/${PATH_PREFIX}/:group/:artifact/last_version`, async (req, res) => {
+  const { group, artifact } = req.params;
+  try {
+    const latestVersion = await getLastArtifactVersion(group, artifact);
+    res.send(latestVersion);
+  } catch (error) {
+    res.status(error.response.status).end();
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`server ready on port ${PORT}`);
 });
