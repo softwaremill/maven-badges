@@ -6,7 +6,7 @@
     "tsc:watch": "tsc -w",
     "tsc:build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
-    "test": "mocha dist/test --timeout 15000 --exit"
+    "test": "npm run tsc:build && mocha dist/test --timeout 15000 --exit"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "ISC",
