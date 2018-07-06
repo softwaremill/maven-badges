@@ -29,4 +29,4 @@ For example:
 
 ## License
 
-This project is licensed under [MIT license](http://opensource.org/licenses/MIT).
+This project is licensed under [Apache 2.0 license]( http://www.apache.org/licenses/LICENSE-2.0).
