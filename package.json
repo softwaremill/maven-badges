@@ -1,12 +1,16 @@
 {
-  "name": "node-typescript-starter",
-  "version": "3.0.0",
-  "description": "",
+  "name": "maven-badges",
+  "version": "1.0.0",
+  "description": "A node.js implementation of maven-badges service.",
+  "engines": {
+    "node": "8.9.1"
+  },
   "scripts": {
     "tsc:watch": "tsc -w",
     "tsc:build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
-    "test": "npm run tsc:build && mocha dist/test --timeout 15000 --exit"
+    "test": "npm run tsc:build && mocha dist/test --timeout 15000 --exit",
+    "start": "npm run tsc:build && node ./dist/main.js"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "ISC",
