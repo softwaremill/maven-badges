@@ -6,11 +6,12 @@
     "tsc:watch": "tsc -w",
     "tsc:build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
-    "test": "mocha dist/test --exit"
+    "test": "mocha dist/test --timeout 15000 --exit"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.16.3"
   },
   "devDependencies": {

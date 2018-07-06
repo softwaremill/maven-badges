@@ -1,34 +1,39 @@
 import * as supertest from 'supertest';
-import { app } from '../main';
+import { app, PATH_PREFIX } from '../main';
 
 describe('GET badge with format', () => {
   let server: any;
   let request: any;
 
-  before((done) => {
+  before(done => {
     server = app.listen(done);
     request = supertest.agent(server);
   });
 
-  after((done) => {
+  after(done => {
     server.close(done);
   });
 
-  it('should return 200 when badge format is correct', (done) => {
+  it('should return 200 when groupId, artifact and badge format is correct', done => {
     request
-      .get('/maven-central/group/artifact/badge.png')
+      .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.png`)
+      .timeout({ response: 15000 })
+      .expect('Content-Type', 'image/png')
       .expect(200, done);
   });
 
-  it('should return 200 when badge format is correct and characters case does not matter', (done) => {
+  it('should return 200 when groupId, artifact and badge format is correct and characters case does not matter', done => {
     request
-      .get('/maven-central/group/artifact/badge.SVG')
+      .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.SVG`)
+      .timeout({ response: 15000 })
+      .expect('Content-Type', 'image/svg+xml')
       .expect(200, done);
   });
 
-  it('should return 415 when badge format is incorrect', (done) => {
+  it('should return 415 when badge format is incorrect', done => {
     request
-      .get('/maven-central/group/artifact/badge.mov')
+      .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.mov`)
+      .timeout({ response: 15000 })
       .expect(415, done);
   });
 });
