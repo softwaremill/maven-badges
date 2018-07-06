@@ -53,5 +53,21 @@ describe('http endpoints', () => {
         .expect(404, done);
     });
   });
+
+  describe('GET info about group/artifact', () => {
+    it('should redirect to maven artifact details page', done => {
+      request
+      .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/?`)
+      .expect('location', 'http://search.maven.org/#artifactdetails%7Ccom.typesafe.akka%7Cakka%7C2.2.0-RC2%7C')
+      .expect(302, done);
+    });
+
+    it('should redirect to maven search page', done => {
+      request
+      .get(`/${PATH_PREFIX}/non.existing/artifact?`)
+      .expect('location', 'http://search.maven.org/#search%7Cga%7C1%7Cg:%22non.existing%22a:%22artifact%22')
+      .expect(302, done);
+    });
+  });
 });
 

@@ -17,3 +17,9 @@ export const getLastArtifactVersion = async (groupId: string, artifact: string) 
   }
   throw new NotFoundErrror();
 }
+
+export const getArtifactDetailsUrl = (groupId: string, artifact: string, version: string) =>
+  `${BASE_URI}/#artifactdetails%7C${groupId}%7C${artifact}%7C${version}%7C`;
+
+export const getSearchByGaUrl = (groupId: string, artifact: string) =>
+  `${BASE_URI}/#search%7Cga%7C1%7Cg:"${groupId}"a:"${artifact}"`

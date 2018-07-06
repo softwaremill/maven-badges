@@ -1,7 +1,7 @@
 import * as express from 'express';
 import PORT from './config';
 import { lowerCaseFormatMiddleware, validateFormatMiddleware } from './middleware';
-import { getLastArtifactVersion } from './services/mavenCentral';
+import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl } from './services/mavenCentral';
 import { getBadgeImage } from './services/shields';
 
 export const PATH_PREFIX = 'maven-central';
@@ -16,8 +16,8 @@ app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddlew
   const { group, artifact, format } = req.params;
   const { subject, color, style } = req.query;
   try {
-    const latestVersion = await getLastArtifactVersion(group, artifact);
-    const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, latestVersion, color || DEFAULT_COLOR, format, style);
+    const lastVersion = await getLastArtifactVersion(group, artifact);
+    const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
     res.contentType(format).send(badge);
   } catch {
     const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, 'unknown', NOT_FOUND_COLOR, format, style);
@@ -28,10 +28,20 @@ app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddlew
 app.get(`/${PATH_PREFIX}/:group/:artifact/last_version`, async (req, res) => {
   const { group, artifact } = req.params;
   try {
-    const latestVersion = await getLastArtifactVersion(group, artifact);
-    res.send(latestVersion);
+    const lastVersion = await getLastArtifactVersion(group, artifact);
+    res.send(lastVersion);
   } catch (error) {
     res.status(error.response.status).end();
+  }
+});
+
+app.get(`/${PATH_PREFIX}/:group/:artifact/?`, async (req, res) => {
+  const { group, artifact } = req.params;
+  try {
+    const lastVersion = await getLastArtifactVersion(group, artifact);
+    res.redirect(getArtifactDetailsUrl(group, artifact, lastVersion));
+  } catch {
+    res.redirect(getSearchByGaUrl(group, artifact));
   }
 });
 
