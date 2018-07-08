@@ -1,6 +1,6 @@
 # Badges for Maven projects
 
-A node.js implementation of [maven-badges](https://github.com/jirutka/maven-badges), originally created in Ruby. We migrated this project to NodeJS as this will allow us support it and fix isseues a way better.
+A node.js implementation of [maven-badges](https://github.com/jirutka/maven-badges), originally created in Ruby. We've migrated this project to node.js for maintainability reasons.
 
 ## Description
 
