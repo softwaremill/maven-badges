@@ -2,6 +2,7 @@ import * as express from 'express';
 import { lowerCaseFormatMiddleware, validateFormatMiddleware } from './middleware';
 import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl, getDefinedArtifactVersion } from './services/mavenCentral';
 import { getBadgeImage } from './services/shields';
+import RedisClientWrapper from './services/redisClientWrapper';
 
 export const PATH_PREFIX = 'maven-central';
 
@@ -9,7 +10,7 @@ const DEFAULT_COLOR = 'brightgreen';
 const NOT_FOUND_COLOR = 'lightgray';
 const DEFAULT_SUBJECT = 'maven central';
 
-export function createServer () {
+export function createServer (redisClient: RedisClientWrapper) {
   const app = express();
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
@@ -17,10 +18,10 @@ export function createServer () {
     const { subject, color, style, version } = req.query;
     try {
       const lastVersion = version ? await getDefinedArtifactVersion(group, artifact, version) : await getLastArtifactVersion(group, artifact);
-      const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
+      const badge = await getBadgeImage(redisClient, subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
       res.contentType(format).send(badge);
     } catch {
-      const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, 'unknown', NOT_FOUND_COLOR, format, style);
+      const badge = await getBadgeImage(redisClient, subject || DEFAULT_SUBJECT, 'unknown', NOT_FOUND_COLOR, format, style);
       res.contentType(format).send(badge);
     }
   });

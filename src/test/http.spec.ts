@@ -1,12 +1,15 @@
 import * as supertest from 'supertest';
+import * as redis from 'redis-mock';
 import { createServer, PATH_PREFIX } from '../server';
+import RedisClientWrapper from '../services/redisClientWrapper';
 
 describe('http endpoints', () => {
   let server: any;
   let request: any;
 
   before(done => {
-    server = createServer().listen(done);
+    const mockRedisClient = new RedisClientWrapper(redis.createClient());
+    server = createServer(mockRedisClient).listen(done);
     request = supertest.agent(server);
   });
 
