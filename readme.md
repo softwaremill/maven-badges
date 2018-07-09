@@ -27,6 +27,14 @@ For example:
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
 
+## Development
+
+You will need a running redis instance - use docker: `docker run -p 6379:6379 --name maven-badge-redis -d redis`
+Start the TypeScript compiler in watch mode: `npm run tsc:watch`
+Start the application: `npm run serve`
+
+To run the tests suite, simply run `npm test`
+
 ## License
 
 This project is licensed under [Apache 2.0 license]( http://www.apache.org/licenses/LICENSE-2.0).
