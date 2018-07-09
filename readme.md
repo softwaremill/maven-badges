@@ -30,7 +30,9 @@ For example:
 ## Development
 
 You will need a running redis instance - use docker: `docker run -p 6379:6379 --name maven-badge-redis -d redis`
+
 Start the TypeScript compiler in watch mode: `npm run tsc:watch`
+
 Start the application: `npm run serve`
 
 To run the tests suite, simply run `npm test`
