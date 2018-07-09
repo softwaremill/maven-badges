@@ -1,12 +1,12 @@
 import * as supertest from 'supertest';
-import { app, PATH_PREFIX } from '../main';
+import { createServer, PATH_PREFIX } from '../server';
 
 describe('http endpoints', () => {
   let server: any;
   let request: any;
 
   before(done => {
-    server = app.listen(done);
+    server = createServer().listen(done);
     request = supertest.agent(server);
   });
 
