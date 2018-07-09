@@ -1,7 +1,7 @@
 import * as express from 'express';
 import PORT from './config';
 import { lowerCaseFormatMiddleware, validateFormatMiddleware } from './middleware';
-import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl } from './services/mavenCentral';
+import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl, getDefinedArtifactVersion } from './services/mavenCentral';
 import { getBadgeImage } from './services/shields';
 
 export const PATH_PREFIX = 'maven-central';
@@ -14,9 +14,9 @@ export const app = express();
 
 app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
   const { group, artifact, format } = req.params;
-  const { subject, color, style } = req.query;
+  const { subject, color, style, version } = req.query;
   try {
-    const lastVersion = await getLastArtifactVersion(group, artifact);
+    const lastVersion = version ? await getDefinedArtifactVersion(group, artifact, version) : await getLastArtifactVersion(group, artifact);
     const badge = await getBadgeImage(subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
     res.contentType(format).send(badge);
   } catch {
