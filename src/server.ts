@@ -16,13 +16,15 @@ export function createServer (redisClient: RedisClientWrapper) {
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
     const { group, artifact, format } = req.params;
     const { subject, color, style, version } = req.query;
+    const lastVersion = version
+      ? await getDefinedArtifactVersion(group, artifact, version).catch(() => 'unknown')
+      : await getLastArtifactVersion(group, artifact).catch(() => 'unknown');
+
     try {
-      const lastVersion = version ? await getDefinedArtifactVersion(group, artifact, version) : await getLastArtifactVersion(group, artifact);
       const badge = await getBadgeImage(redisClient, subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
       res.contentType(format).send(badge);
     } catch {
-      const badge = await getBadgeImage(redisClient, subject || DEFAULT_SUBJECT, 'unknown', NOT_FOUND_COLOR, format, style);
-      res.contentType(format).send(badge);
+      res.status(500).end();
     }
   });
   
