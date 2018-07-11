@@ -1,12 +1,12 @@
-import axios from 'axios';
 import RedisClientWrapper from './redisClientWrapper';
+import { AxiosStatic } from 'axios';
 
 const BASE_URI = 'http://img.shields.io';
 const TTL = 60 * 60 * 12;
 
 const encode = (input: string) => input.replace(/_/g, '__').replace(/\s/g, '_').replace(/-/g, '--');
 
-export const getBadgeImage = async (redisClient: RedisClientWrapper, subject: string, version: string, color: string, format: string, style = 'default') => {
+export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClientWrapper, subject: string, version: string, color: string, format: string, style = 'default') => {
   const url = `${BASE_URI}/badge/${encode(subject)}-${encode(version)}-${encode(color)}.${format}?style=${style}`;
   const serializedImageBuffer = await redisClient.getAsync(url);
   if (serializedImageBuffer) {
@@ -14,7 +14,7 @@ export const getBadgeImage = async (redisClient: RedisClientWrapper, subject: st
     await redisClient.expireAsync(url, TTL); // refresh expiry time
     return new Buffer(serializedImageBuffer, 'hex');
   }
-
+  
   const { data: buffer } = await axios.get(url, {
     responseType: 'arraybuffer'
   });

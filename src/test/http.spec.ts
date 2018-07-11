@@ -1,5 +1,7 @@
 import * as supertest from 'supertest';
 import * as redis from 'redis-mock';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import { createServer, PATH_PREFIX } from '../server';
 import RedisClientWrapper from '../services/redisClientWrapper';
 
@@ -8,8 +10,16 @@ describe('http endpoints', () => {
   let request: any;
 
   before(done => {
+    const mockAxios = new MockAdapter(axios);
+    mockAxios
+      .onGet('http://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&rows=1&wt=json')
+      .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
+    mockAxios
+      .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
+      .reply(200, new Buffer([1, 2, 3]));
+
     const mockRedisClient = new RedisClientWrapper(redis.createClient());
-    server = createServer(mockRedisClient).listen(done);
+    server = createServer(axios, mockRedisClient).listen(done);
     request = supertest.agent(server);
   });
 
@@ -21,7 +31,6 @@ describe('http endpoints', () => {
     it('should succeed when groupId, artifact and badge format is correct', done => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.png`)
-        .timeout({ response: 15000 })
         .expect('Content-Type', 'image/png')
         .expect(200, done);
     });
@@ -29,7 +38,6 @@ describe('http endpoints', () => {
     it('should succeed when groupId, artifact and badge format is correct and characters case does not matter', done => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.SVG`)
-        .timeout({ response: 15000 })
         .expect('Content-Type', 'image/svg+xml')
         .expect(200, done);
     });
@@ -37,7 +45,6 @@ describe('http endpoints', () => {
     it('should return 415 when badge format is incorrect', done => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.mov`)
-        .timeout({ response: 15000 })
         .expect(415, done);
     });
   });
