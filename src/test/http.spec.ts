@@ -75,7 +75,7 @@ describe('http endpoints', () => {
     it('should redirect to maven search page', done => {
       request
       .get(`/${PATH_PREFIX}/non.existing/artifact?`)
-      .expect('location', 'https://search.maven.org/search?g:non.existing%20AND%20a:%22artifact%22&core=gav')
+      .expect('location', 'https://search.maven.org/search?g:non.existing%20AND%20a:artifact&core=gav')
       .expect(302, done);
     });
   });
