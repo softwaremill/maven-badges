@@ -12,7 +12,7 @@ describe('http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('http://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&rows=1&wt=json')
+      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&rows=1&wt=json')
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
@@ -68,14 +68,14 @@ describe('http endpoints', () => {
     it('should redirect to maven artifact details page', done => {
       request
       .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/?`)
-      .expect('location', 'http://search.maven.org/#artifactdetails%7Ccom.typesafe.akka%7Cakka%7C2.2.0-RC2%7C')
+      .expect('location', 'https://search.maven.org/#artifactdetails%7Ccom.typesafe.akka%7Cakka%7C2.2.0-RC2%7C')
       .expect(302, done);
     });
 
     it('should redirect to maven search page', done => {
       request
       .get(`/${PATH_PREFIX}/non.existing/artifact?`)
-      .expect('location', 'http://search.maven.org/#search%7Cga%7C1%7Cg:%22non.existing%22a:%22artifact%22')
+      .expect('location', 'https://search.maven.org/#search%7Cga%7C1%7Cg:%22non.existing%22a:%22artifact%22')
       .expect(302, done);
     });
   });
