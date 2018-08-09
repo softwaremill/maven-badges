@@ -68,14 +68,14 @@ describe('http endpoints', () => {
     it('should redirect to maven artifact details page', done => {
       request
       .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/?`)
-      .expect('location', 'https://search.maven.org/#artifactdetails%7Ccom.typesafe.akka%7Cakka%7C2.2.0-RC2%7C')
+      .expect('location', 'https://search.maven.org/artifact/com.typesafe.akka/akka/2.2.0-RC2/jar')
       .expect(302, done);
     });
 
     it('should redirect to maven search page', done => {
       request
       .get(`/${PATH_PREFIX}/non.existing/artifact?`)
-      .expect('location', 'https://search.maven.org/#search%7Cga%7C1%7Cg:%22non.existing%22a:%22artifact%22')
+      .expect('location', 'https://search.maven.org/search?g:non.existing%20AND%20a:%22artifact%22&core=gav')
       .expect(302, done);
     });
   });
