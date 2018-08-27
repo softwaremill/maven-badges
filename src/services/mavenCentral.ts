@@ -1,6 +1,6 @@
 import { AxiosStatic } from 'axios';
 
-const BASE_URI = 'http://search.maven.org';
+const BASE_URI = 'https://search.maven.org';
 
 class NotFoundErrror extends Error {
   response = { status: 404 };
@@ -28,7 +28,7 @@ export const getDefinedArtifactVersion = async (axios: AxiosStatic, groupId: str
 };
 
 export const getArtifactDetailsUrl = (groupId: string, artifact: string, version: string) =>
-  `${BASE_URI}/#artifactdetails%7C${groupId}%7C${artifact}%7C${version}%7C`;
+  `${BASE_URI}/artifact/${groupId}/${artifact}/${version}/jar`; // it would be ideal to pass in a extension here, as you could have situations like war, etc...
 
 export const getSearchByGaUrl = (groupId: string, artifact: string) =>
-  `${BASE_URI}/#search%7Cga%7C1%7Cg:"${groupId}"a:"${artifact}"`;
+  `${BASE_URI}/search?g:${groupId}%20AND%20a:${artifact}&core=gav`;
