@@ -23,7 +23,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
 
     try {
       const badge = await getBadgeImage(axios, redisClient, subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
-      res.set('Cache-Control', 'no-cache');
+      res.set('Cache-Control', 'public, max-age=43200'); // 12 hours
       res.contentType(format).send(badge);
     } catch {
       res.status(500).end();
