@@ -12,7 +12,7 @@ describe('http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&rows=1&wt=json')
+      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&start=0&rows=1')
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
