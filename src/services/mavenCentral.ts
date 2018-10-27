@@ -10,7 +10,7 @@ class NotFoundErrror extends Error {
 }
 
 export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string) => {
-  const { data } = await axios.get(`${BASE_URI}/solrsearch/select?q=g:"${groupId}"a:"${artifact}"&rows=1&wt=json`);
+  const { data } = await axios.get(`${BASE_URI}/solrsearch/select?q=g:"${groupId}"a:"${artifact}"&start=0&rows=1`);
   const { response } = data;
   if (response.numFound > 0) {
     return response.docs[0].latestVersion;
@@ -19,7 +19,7 @@ export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string
 };
 
 export const getDefinedArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, version: string) => {
-  const { data } = await axios.get(`${BASE_URI}/solrsearch/select?q=g:"${groupId}"a:"${artifact}"v:"${version}"&rows=1&wt=json`);
+  const { data } = await axios.get(`${BASE_URI}/solrsearch/select?q=g:"${groupId}"a:"${artifact}"v:"${version}"&start&rows=1`);
   const { response } = data;
   if (response.numFound > 0) {
     return response.docs[0].v;
