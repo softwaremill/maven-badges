@@ -31,7 +31,7 @@
     "chai": "~4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "~1.18.4",
-    "redis-mock": "^0.34.1",
+    "redis-mock": "^0.37.0",
     "supertest": "^3.3.0",
     "typescript": "~3.1.3"
   }
