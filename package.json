@@ -27,7 +27,7 @@
     "@types/node": "~10.12.18",
     "@types/redis-mock": "^0.17.0",
     "@types/supertest": "^2.0.7",
-    "axios-mock-adapter": "^1.15.0",
+    "axios-mock-adapter": "^1.16.0",
     "chai": "~4.2.0",
     "mocha": "^5.2.0",
     "redis-mock": "^0.42.0",
