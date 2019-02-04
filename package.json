@@ -32,7 +32,7 @@
     "mocha": "^5.2.0",
     "redis-mock": "^0.42.0",
     "nodemon": "~1.18.9",
-    "supertest": "^3.4.1",
+    "supertest": "^3.4.2",
     "typescript": "~3.2.4"
   }
 }
