@@ -30,7 +30,7 @@
     "axios-mock-adapter": "^1.16.0",
     "chai": "~4.2.0",
     "mocha": "^6.1.4",
-    "redis-mock": "^0.43.0",
+    "redis-mock": "^0.44.0",
     "nodemon": "~1.19.0",
     "supertest": "^4.0.2",
     "typescript": "~3.4.5"
