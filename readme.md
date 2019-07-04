@@ -1,5 +1,7 @@
 # Badges for Maven projects
 
+[![Build Status](https://travis-ci.org/softwaremill/maven-badges.svg?branch=master)](https://travis-ci.org/softwaremill/maven-badges)
+
 A node.js implementation of [maven-badges](https://github.com/jirutka/maven-badges), originally created in Ruby. We've migrated this project to node.js for maintainability reasons.
 
 ## Description
