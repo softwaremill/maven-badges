@@ -29,7 +29,7 @@
     "@types/supertest": "^2.0.8",
     "axios-mock-adapter": "^1.17.0",
     "chai": "~4.2.0",
-    "mocha": "^6.2.1",
+    "mocha": "^6.2.2",
     "redis-mock": "^0.46.0",
     "nodemon": "~1.19.4",
     "supertest": "^4.0.2",
