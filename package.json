@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.4",
-    "@types/express": "^4.17.1",
+    "@types/express": "^4.17.2",
     "@types/mocha": "^5.2.7",
     "@types/node": "~12.12.3",
     "@types/redis-mock": "^0.17.0",
