@@ -18,7 +18,7 @@
     "@types/redis": "^2.8.14",
     "axios": "^0.19.2",
     "express": "^4.17.1",
-    "redis": "^2.8.0"
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.8",
