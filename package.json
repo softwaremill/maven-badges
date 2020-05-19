@@ -15,7 +15,7 @@
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/redis": "^2.8.20",
+    "@types/redis": "^2.8.21",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "redis": "^3.0.2"
