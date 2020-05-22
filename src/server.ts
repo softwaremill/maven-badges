@@ -18,11 +18,11 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
     const { group, artifact, format } = req.params;
     const { subject, color, style, version } = req.query;
     const lastVersion = version
-      ? await getDefinedArtifactVersion(axios, group, artifact, version).catch(() => 'unknown')
+      ? await getDefinedArtifactVersion(axios, group, artifact, version as string).catch(() => 'unknown')
       : await getLastArtifactVersion(axios, group, artifact).catch(() => 'unknown');
 
     try {
-      const badge = await getBadgeImage(axios, redisClient, subject || DEFAULT_SUBJECT, lastVersion, color || DEFAULT_COLOR, format, style);
+      const badge = await getBadgeImage(axios, redisClient, subject as string || DEFAULT_SUBJECT, lastVersion, color as string || DEFAULT_COLOR, format, style as string);
       res.set('Cache-Control', 'public, max-age=43200'); // 12 hours
       res.contentType(format).send(badge);
     } catch {
