@@ -12,10 +12,10 @@ describe('http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&start=0&rows=1')
+      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0&rows=1')
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
-      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka-streams"&start=0&rows=1&core=gav')
+      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1&core=gav')
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
@@ -62,7 +62,7 @@ describe('http endpoints', () => {
   describe('GET last_version', () => {
     it('should return artifact\'s last version number in plain text', done => {
       request
-        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/last_version`)
+        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka-streams/last_version`)
         .expect('Content-Type', 'text/html; charset=utf-8')
         .expect(200, done);
     });
@@ -85,7 +85,7 @@ describe('http endpoints', () => {
     it('should redirect to maven search page', done => {
       request
       .get(`/${PATH_PREFIX}/non.existing/artifact?`)
-      .expect('location', 'https://search.maven.org/search?g:non.existing%20AND%20a:artifact&core=gav')
+      .expect('location', 'https://search.maven.org/search?g:non.existing+AND+a:artifact&core=gav')
       .expect(302, done);
     });
   });

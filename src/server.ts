@@ -22,6 +22,8 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
       ? await getDefinedArtifactVersion(axios, group, artifact, version as string).catch(() => 'unknown')
       : await getLastArtifactVersion(axios, group, artifact, useGav).catch(() => 'unknown');
 
+    console.log(`Latest version ${lastVersion}`)
+
     try {
       const badge = await getBadgeImage(axios, redisClient, subject as string || DEFAULT_SUBJECT, lastVersion, color as string || DEFAULT_COLOR, format, style as string);
       res.set('Cache-Control', 'public, max-age=43200'); // 12 hours
@@ -34,7 +36,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
   app.get(`/${PATH_PREFIX}/:group/:artifact/last_version`, async (req, res) => {
     const { group, artifact } = req.params;
     try {
-      const lastVersion = await getLastArtifactVersion(axios, group, artifact);
+      const lastVersion = await getLastArtifactVersion(axios, group, artifact, true);
       res.send(lastVersion);
     } catch (error) {
       res.status(error.response.status).end();
