@@ -1,4 +1,7 @@
 import { AxiosStatic } from 'axios';
+import { Logger } from 'heroku-logger';
+
+const logger = new Logger({ prefix: 'maven-central' });
 
 const BASE_URI = 'https://search.maven.org';
 
@@ -11,10 +14,12 @@ class NotFoundErrror extends Error {
 
 export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, useGav: boolean = false) => {
   const url = `${BASE_URI}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0&rows=1${useGav ? '&core=gav' : ''}`
+  logger.info(`Requesting url ${url}`);
+
   const { data } = await axios.get(url);
   const { response } = data;
   if (response.numFound > 0) {
-    return response.docs[0].latestVersion;
+    return response.docs[0].latestVersion || response.docs[0].v;
   }
   throw new NotFoundErrror();
 };

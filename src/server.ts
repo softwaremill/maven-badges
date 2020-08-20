@@ -14,7 +14,7 @@ const DEFAULT_SUBJECT = 'maven central';
 
 export function createServer (axios: AxiosStatic, redisClient: RedisClientWrapper) {
   const app = express();
-  const logger = new Logger({ prefix: 'badges' });
+  const logger = new Logger({ prefix: 'server' });
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
     const { group, artifact, format } = req.params;
