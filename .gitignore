@@ -4,4 +4,4 @@ dist
 .vscode
 .idea
 .npm-debug.log
-.iml
+*.iml
