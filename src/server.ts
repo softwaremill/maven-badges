@@ -16,10 +16,11 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
     const { group, artifact, format } = req.params;
-    const { subject, color, style, version } = req.query;
+    const { subject, color, style, version, gav } = req.query;
+    const useGav = (gav || 'false') == 'true';
     const lastVersion = version
       ? await getDefinedArtifactVersion(axios, group, artifact, version as string).catch(() => 'unknown')
-      : await getLastArtifactVersion(axios, group, artifact).catch(() => 'unknown');
+      : await getLastArtifactVersion(axios, group, artifact, useGav).catch(() => 'unknown');
 
     try {
       const badge = await getBadgeImage(axios, redisClient, subject as string || DEFAULT_SUBJECT, lastVersion, color as string || DEFAULT_COLOR, format, style as string);

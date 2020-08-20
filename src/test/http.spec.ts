@@ -15,6 +15,9 @@ describe('http endpoints', () => {
       .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka"&start=0&rows=1')
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
+      .onGet('https://search.maven.org/solrsearch/select?q=g:"com.typesafe.akka"a:"akka-streams"&start=0&rows=1&core=gav')
+      .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
+    mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
 
@@ -46,6 +49,13 @@ describe('http endpoints', () => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.mov`)
         .expect(415, done);
+    });
+
+    it('should succeed when groupId, artifact and badge format is correct with gav set to true', done => {
+      request
+          .get(`/${PATH_PREFIX}/com.typesafe.akka/akka-streams/badge.png?gav=true`)
+          .expect('Content-Type', 'image/png')
+          .expect(200, done);
     });
   });
 

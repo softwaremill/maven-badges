@@ -15,6 +15,15 @@ However, most of them are not usable for Java/Groovy guys and that’s quite sad
 https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
 ```
 
+### No semver versions
+
+You can try to use `gav=true` parameter to obey semiver problem - when some artifacts as following semver and some don't
+in such case try to use `gav`
+
+```
+https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&gav=true
+```
+
 For example:
 
 ```
