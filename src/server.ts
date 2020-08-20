@@ -4,6 +4,7 @@ import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl, getDef
 import { getBadgeImage } from './services/shields';
 import RedisClientWrapper from './services/redisClientWrapper';
 import { AxiosStatic } from 'axios';
+import { Logger } from 'heroku-logger';
 
 export const PATH_PREFIX = 'maven-central';
 
@@ -13,6 +14,7 @@ const DEFAULT_SUBJECT = 'maven central';
 
 export function createServer (axios: AxiosStatic, redisClient: RedisClientWrapper) {
   const app = express();
+  const logger = new Logger({ prefix: 'badges' });
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
     const { group, artifact, format } = req.params;
@@ -22,7 +24,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
       ? await getDefinedArtifactVersion(axios, group, artifact, version as string).catch(() => 'unknown')
       : await getLastArtifactVersion(axios, group, artifact, useGav).catch(() => 'unknown');
 
-    console.log(`Latest version ${lastVersion}`)
+    logger.info(`Latest version of ${group}:${artifact} is ${lastVersion}`)
 
     try {
       const badge = await getBadgeImage(axios, redisClient, subject as string || DEFAULT_SUBJECT, lastVersion, color as string || DEFAULT_COLOR, format, style as string);
@@ -32,7 +34,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
       res.status(500).end();
     }
   });
-  
+
   app.get(`/${PATH_PREFIX}/:group/:artifact/last_version`, async (req, res) => {
     const { group, artifact } = req.params;
     try {
@@ -42,7 +44,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
       res.status(error.response.status).end();
     }
   });
-  
+
   app.get(`/${PATH_PREFIX}/:group/:artifact/?`, async (req, res) => {
     const { group, artifact } = req.params;
     try {
