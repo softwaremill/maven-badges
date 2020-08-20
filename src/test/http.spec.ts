@@ -16,7 +16,7 @@ describe('http endpoints', () => {
       .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
     mockAxios
       .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1&core=gav')
-      .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
+      .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
