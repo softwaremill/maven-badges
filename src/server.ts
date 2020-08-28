@@ -14,7 +14,7 @@ const DEFAULT_SUBJECT = 'maven central';
 
 export function createServer (axios: AxiosStatic, redisClient: RedisClientWrapper) {
   const app = express();
-  const logger = new Logger({ prefix: 'server' });
+  const logger = new Logger({ prefix: 'server: ' });
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/badge.:format`, lowerCaseFormatMiddleware, validateFormatMiddleware, async (req, res) => {
     const { group, artifact, format } = req.params;
@@ -46,9 +46,11 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
   });
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/?`, async (req, res) => {
-    const { group, artifact, gav } = req.params;
+    const { group, artifact } = req.params;
+    const { gav } = req.query;
     const useGav = (gav || 'false') == 'true';
     try {
+      logger.info(`Resolving the latest version of ${group} and ${artifact} with using gav ${useGav}`)
       const lastVersion = await getLastArtifactVersion(axios, group, artifact, useGav);
       res.redirect(getArtifactDetailsUrl(group, artifact, lastVersion));
     } catch {

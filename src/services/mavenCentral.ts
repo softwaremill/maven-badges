@@ -1,7 +1,7 @@
 import { AxiosStatic } from 'axios';
 import { Logger } from 'heroku-logger';
 
-const logger = new Logger({ prefix: 'maven-central' });
+const logger = new Logger({ prefix: 'maven-central: ' });
 
 const BASE_URI = 'https://search.maven.org';
 
