@@ -46,9 +46,10 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
   });
 
   app.get(`/${PATH_PREFIX}/:group/:artifact/?`, async (req, res) => {
-    const { group, artifact } = req.params;
+    const { group, artifact, gav } = req.params;
+    const useGav = (gav || 'false') == 'true';
     try {
-      const lastVersion = await getLastArtifactVersion(axios, group, artifact);
+      const lastVersion = await getLastArtifactVersion(axios, group, artifact, useGav);
       res.redirect(getArtifactDetailsUrl(group, artifact, lastVersion));
     } catch {
       res.redirect(getSearchByGaUrl(group, artifact));
