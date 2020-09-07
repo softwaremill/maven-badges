@@ -10,7 +10,8 @@
     "tsc:build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
     "test": "npm run tsc:build && mocha dist/test --timeout 15000 --exit",
-    "start": "npm run tsc:build && node ./dist/main.js"
+    "start": "node ./dist/main.js",
+    "postinstall": "npm run tsc:build"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "Apache-2.0",
