@@ -31,7 +31,7 @@
     "@types/redis-mock": "^0.17.0",
     "@types/supertest": "^2.0.10",
     "axios-mock-adapter": "^1.19.0",
-    "chai": "~4.3.0",
+    "chai": "~4.3.1",
     "mocha": "^8.3.0",
     "nodemon": "~2.0.7",
     "redis-mock": "^0.56.3",
