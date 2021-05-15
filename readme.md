@@ -2,11 +2,13 @@
 
 [![Build Status](https://travis-ci.org/softwaremill/maven-badges.svg?branch=master)](https://travis-ci.org/softwaremill/maven-badges)
 
-A node.js implementation of [maven-badges](https://github.com/jirutka/maven-badges), originally created in Ruby. We've migrated this project to node.js for maintainability reasons.
+A node.js implementation of [maven-badges](https://github.com/jirutka/maven-badges), originally created in Ruby. 
+We've migrated this project to node.js for maintainability reasons.
 
 ## Description
 
-Badges! These tiny pictures with label and some numbers, you see them in many GitHub readmes. We all love them, yeah? Travis, Coveralls, Code Climate, Gemnasium, Gem, PyPi, npm… 
+Badges! These tiny pictures with label and some numbers, you see them in many GitHub readmes. We all love them, yeah? 
+Travis, Coveralls, Code Climate, Gemnasium, Gem, PyPi, npm…
 However, most of them are not usable for Java/Groovy guys and that’s quite sad, isn’t it?
 
 ## Usage
@@ -15,10 +17,19 @@ However, most of them are not usable for Java/Groovy guys and that’s quite sad
 https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
 ```
 
+where `style` can be one of:
+ - `plastic`
+ - `flat`
+ - `flat-square`
+ - `for-the-badge`
+ - `social`
+
+check [Styles](https://shields.io/#styles) section at [shields.io](https://shields.io/).
+
 ### No semver versions
 
-You can try to use `gav=true` parameter to obey semver problem - when some artifacts ar following semver pattern
-and some don't, in such case try to use `gav`
+You can try to use `gav=true` parameter to bypass semver problem - when some artifacts are following semver pattern,
+and some don't, in such case try to use `gav`:
 
 ```
 https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&gav=true
