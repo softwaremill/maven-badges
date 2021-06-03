@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A node.js implementation of maven-badges service.",
   "engines": {
-    "node": "12.18.3"
+    "node": "15.9.0"
   },
   "scripts": {
     "tsc:watch": "tsc -w",
