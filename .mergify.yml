@@ -6,7 +6,7 @@ pull_request_rules:
   - name: automatic merge for Dependabot pull requests
     conditions:
       - author~=dependabot\[bot\]
-      - status-success=CI / build (pull_request)
+      - check-success=build
       - "#files=2"
       - files=package-lock.json
       - files=package.json
