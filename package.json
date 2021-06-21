@@ -23,7 +23,7 @@
     "redis": "^3.1.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.18",
+    "@types/chai": "^4.2.19",
     "@types/express": "^4.17.12",
     "@types/heroku-logger": "^1.0.0",
     "@types/mocha": "^8.2.2",
