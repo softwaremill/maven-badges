@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
-    "@types/express": "^4.17.12",
+    "@types/express": "^4.17.13",
     "@types/heroku-logger": "^1.0.0",
     "@types/mocha": "^8.2.2",
     "@types/node": "~16.0.0",
