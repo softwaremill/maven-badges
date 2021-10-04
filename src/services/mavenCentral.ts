@@ -16,7 +16,7 @@ export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string
   const url = `${BASE_URI}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0&rows=1${useGav ? '&core=gav' : ''}`
   logger.info(`Requesting url ${url}`);
 
-  const { data } = await axios.get(url);
+  const { data } = await axios.get<any>(url);
   const { response } = data;
   if (response.numFound > 0) {
     return response.docs[0].latestVersion || response.docs[0].v;
@@ -25,7 +25,7 @@ export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string
 };
 
 export const getDefinedArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, version: string) => {
-  const { data } = await axios.get(`${BASE_URI}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}+AND+v:${version}&start&rows=1`);
+  const { data } = await axios.get<any>(`${BASE_URI}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}+AND+v:${version}&start&rows=1`);
   const { response } = data;
   if (response.numFound > 0) {
     return response.docs[0].v;

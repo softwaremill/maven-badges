@@ -15,7 +15,7 @@ export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClient
     return new Buffer(serializedImageBuffer, 'hex');
   }
   
-  const { data: buffer } = await axios.get(url, {
+  const { data: buffer } = await axios.get<any>(url, {
     responseType: 'arraybuffer'
   });
   await redisClient.setAsync(url, buffer.toString('hex'), 'EX', TTL); // sets an expiry time to 12h
