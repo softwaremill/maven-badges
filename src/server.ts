@@ -2,17 +2,17 @@ import * as express from 'express';
 import { lowerCaseFormatMiddleware, validateFormatMiddleware } from './middleware';
 import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl, getDefinedArtifactVersion } from './services/mavenCentral';
 import { getBadgeImage } from './services/shields';
-import RedisClientWrapper from './services/redisClientWrapper';
 import { AxiosStatic } from 'axios';
 import { Logger } from 'heroku-logger';
+import { RedisClient } from './main';
+import { extractAxiosErrorStatus, isAxiosError } from './utils';
 
 export const PATH_PREFIX = 'maven-central';
 
 const DEFAULT_COLOR = 'brightgreen';
-const NOT_FOUND_COLOR = 'lightgray';
 const DEFAULT_SUBJECT = 'maven central';
 
-export function createServer (axios: AxiosStatic, redisClient: RedisClientWrapper) {
+export function createServer (axios: AxiosStatic, redisClient: RedisClient) {
   const app = express();
   const logger = new Logger({ prefix: 'server: ' });
 
@@ -41,7 +41,7 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientWrappe
       const lastVersion = await getLastArtifactVersion(axios, group, artifact, true);
       res.send(lastVersion);
     } catch (error) {
-      res.status(error.response.status).end();
+      res.status(isAxiosError(error) ? extractAxiosErrorStatus(error) : 0).end();
     }
   });
 

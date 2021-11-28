@@ -1,13 +1,16 @@
-import * as redis from 'redis';
+import { createClient } from 'redis';
 import axios from 'axios';
 import { PORT, REDIS_URL } from './config';
 import { createServer } from './server';
-import RedisClientWrapper from './services/redisClientWrapper';
 
-const redisClientWrapper = new RedisClientWrapper(redis.createClient(REDIS_URL));
+const redisClient = createClient({ url: REDIS_URL });
 
-const app = createServer(axios, redisClientWrapper);
+export type RedisClient = typeof redisClient;
 
-app.listen(PORT, () => {
-  console.log(`server ready on port ${PORT}`);
+redisClient.connect().then(() => {
+  const app = createServer(axios, redisClient);
+  
+  app.listen(PORT, () => {
+    console.log(`server ready on port ${PORT}`);
+  });
 });
