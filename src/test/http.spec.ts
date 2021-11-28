@@ -3,7 +3,6 @@ import * as redis from 'redis-mock';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { createServer, PATH_PREFIX } from '../server';
-import RedisClientWrapper from '../services/redisClientWrapper';
 
 describe('http endpoints', () => {
   let server: any;
@@ -21,7 +20,7 @@ describe('http endpoints', () => {
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
 
-    const mockRedisClient = new RedisClientWrapper(redis.createClient());
+    const mockRedisClient = redis.createClient();
     server = createServer(axios, mockRedisClient).listen(done);
     request = supertest.agent(server);
   });
