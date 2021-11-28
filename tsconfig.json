@@ -12,7 +12,8 @@
         "outDir": "./dist",
         "noEmitOnError": true,
         "declaration": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "strict": true
     },
     "exclude": [
         "node_modules",
