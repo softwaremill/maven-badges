@@ -36,6 +36,6 @@
     "nodemon": "~2.0.15",
     "redis-mock": "^0.56.3",
     "supertest": "^6.2.2",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.5"
   }
 }
