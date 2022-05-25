@@ -35,7 +35,14 @@ and some don't, in such case try to use `gav`:
 https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&gav=true
 ```
 
-For example:
+### Hardcode version
+
+You can also specify exact version to show on badge, just use `?version=x.x.x` as  follow:
+```
+https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0
+```
+
+### Examples
 
 ```
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
@@ -48,6 +55,12 @@ For example:
 ```
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+
+```
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg=version=2.0.0)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+```
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
 
 ## Development
 
