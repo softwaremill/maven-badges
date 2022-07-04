@@ -3,6 +3,7 @@ import * as redis from 'redis-mock';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { createServer, PATH_PREFIX } from '../server';
+import {RedisClientType} from "redis";
 
 describe('http endpoints', () => {
   let server: any;
@@ -20,7 +21,7 @@ describe('http endpoints', () => {
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
 
-    const mockRedisClient = redis.createClient();
+    const mockRedisClient = redis.createClient({}) as unknown as RedisClientType;
     server = createServer(axios, mockRedisClient).listen(done);
     request = supertest.agent(server);
   });
@@ -36,14 +37,14 @@ describe('http endpoints', () => {
         .expect('Content-Type', 'image/png')
         .expect(200, done);
     });
-  
+
     it('should succeed when groupId, artifact and badge format is correct and characters case does not matter', done => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.SVG`)
         .expect('Content-Type', 'image/svg+xml')
         .expect(200, done);
     });
-  
+
     it('should return 415 when badge format is incorrect', done => {
       request
         .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.mov`)

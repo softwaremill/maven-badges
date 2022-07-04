@@ -4,15 +4,15 @@ import { getLastArtifactVersion, getArtifactDetailsUrl, getSearchByGaUrl, getDef
 import { getBadgeImage } from './services/shields';
 import { AxiosStatic } from 'axios';
 import { Logger } from 'heroku-logger';
-import { RedisClient } from './main';
 import { extractAxiosErrorStatus, isAxiosError } from './utils';
+import { RedisClientType } from 'redis';
 
 export const PATH_PREFIX = 'maven-central';
 
 const DEFAULT_COLOR = 'brightgreen';
 const DEFAULT_SUBJECT = 'maven central';
 
-export function createServer (axios: AxiosStatic, redisClient: RedisClient) {
+export function createServer (axios: AxiosStatic, redisClient: RedisClientType) {
   const app = express();
   const logger = new Logger({ prefix: 'server: ' });
 

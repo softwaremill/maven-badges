@@ -1,12 +1,12 @@
 import { AxiosStatic } from 'axios';
-import { RedisClient } from '../main';
+import { RedisClientType } from 'redis';
 
 const BASE_URI = 'http://img.shields.io';
 const TTL = 60 * 60 * 12;
 
 const encode = (input: string) => input.replace(/_/g, '__').replace(/\s/g, '_').replace(/-/g, '--');
 
-export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClient, subject: string, version: string, color: string, format: string, style = 'default') => {
+export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClientType, subject: string, version: string, color: string, format: string, style = 'default') => {
   const url = `${BASE_URI}/badge/${encode(subject)}-${encode(version)}-${encode(color)}.${format}?style=${style}`;
 
   try {
