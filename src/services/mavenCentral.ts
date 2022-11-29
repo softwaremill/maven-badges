@@ -37,4 +37,4 @@ export const getArtifactDetailsUrl = (groupId: string, artifact: string, version
   `${BASE_URI}/artifact/${groupId}/${artifact}/${version}/jar`; // it would be ideal to pass in a extension here, as you could have situations like war, etc...
 
 export const getSearchByGaUrl = (groupId: string, artifact: string) =>
-  `${BASE_URI}/search?g:${groupId}+AND+a:${artifact}&core=gav`;
+  `${BASE_URI}/search?q=g:${groupId}+AND+a:${artifact}`;
