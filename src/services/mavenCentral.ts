@@ -33,8 +33,9 @@ export const getDefinedArtifactVersion = async (axios: AxiosStatic, groupId: str
   throw new NotFoundErrror();
 };
 
+// NOTE: the eh= at the end of the URL may be a short-term solution to the changes made at maven central
 export const getArtifactDetailsUrl = (groupId: string, artifact: string, version: string) =>
-  `${BASE_URI}/artifact/${groupId}/${artifact}/${version}/jar`; // it would be ideal to pass in a extension here, as you could have situations like war, etc...
+  `${BASE_URI}/artifact/${groupId}/${artifact}/${version}/jar?eh=`; // it would be ideal to pass in a extension here, as you could have situations like war, etc...
 
 export const getSearchByGaUrl = (groupId: string, artifact: string) =>
   `${BASE_URI}/search?q=g:${groupId}+AND+a:${artifact}`;
