@@ -78,7 +78,7 @@ describe('http endpoints', () => {
     it('should redirect to maven artifact details page', done => {
       request
       .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/?`)
-      .expect('location', 'https://search.maven.org/artifact/com.typesafe.akka/akka/2.2.0-RC2/jar')
+      .expect('location', 'https://search.maven.org/artifact/com.typesafe.akka/akka/2.2.0-RC2/jar?eh=')
       .expect(302, done);
     });
 
