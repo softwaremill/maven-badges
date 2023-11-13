@@ -29,7 +29,7 @@
     "@types/heroku-logger": "^1.0.3",
     "@types/mocha": "^10.0.3",
     "@types/node": "~20.9.0",
-    "@types/redis-mock": "^0.17.2",
+    "@types/redis-mock": "^0.17.3",
     "@types/supertest": "^2.0.16",
     "axios-mock-adapter": "^1.22.0",
     "chai": "~4.3.10",
