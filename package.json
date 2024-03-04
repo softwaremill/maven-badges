@@ -19,7 +19,7 @@
   "dependencies": {
     "@types/redis": "^4.0.11",
     "axios": "^1.6.7",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "heroku-logger": "^0.3.3",
     "redis": "^4.6.13"
   },
