@@ -21,7 +21,7 @@
     "axios": "^1.7.2",
     "express": "^4.19.2",
     "heroku-logger": "^0.3.3",
-    "redis": "^4.6.15"
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
