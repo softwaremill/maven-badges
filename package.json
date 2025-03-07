@@ -17,7 +17,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/redis": "^4.0.11",
-    "axios": "^1.8.1",
+    "axios": "^1.8.2",
     "express": "^4.21.2",
     "heroku-logger": "^0.3.3",
     "redis": "^4.7.0"
