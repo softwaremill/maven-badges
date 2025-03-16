@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: maven-badges-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --save 60 1 --loglevel warning
+    restart: unless-stopped
+
+volumes:
+  redis-data:

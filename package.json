@@ -6,12 +6,13 @@
     "node": ">=18"
   },
   "scripts": {
-    "tsc:watch": "tsc -w",
-    "tsc:build": "tsc",
+    "watch": "tsc -w",
+    "build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
-    "test": "npm run tsc:build && mocha dist/test --timeout 15000 --exit",
+    "test": "npm run build && mocha dist/test --timeout 15000 --exit",
+    "prestart": "npm run build",
     "start": "node ./dist/main.js",
-    "postinstall": "npm run tsc:build"
+    "postinstall": "npm run build"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "Apache-2.0",

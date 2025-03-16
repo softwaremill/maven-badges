@@ -2,10 +2,10 @@ import * as supertest from 'supertest';
 import * as redis from 'redis-mock';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { createServer, PATH_PREFIX } from '../server';
+import { createServer, MAVEN_CENTRAL_PREFIX } from '../server';
 import {RedisClientType} from "redis";
 
-describe('http endpoints', () => {
+describe('maven central http endpoints', () => {
   let server: any;
   let request: any;
 
@@ -33,27 +33,27 @@ describe('http endpoints', () => {
   describe('GET badge with format', () => {
     it('should succeed when groupId, artifact and badge format is correct', done => {
       request
-        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.png`)
+        .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka/badge.png`)
         .expect('Content-Type', 'image/png')
         .expect(200, done);
     });
 
     it('should succeed when groupId, artifact and badge format is correct and characters case does not matter', done => {
       request
-        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.SVG`)
+        .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka/badge.SVG`)
         .expect('Content-Type', 'image/svg+xml')
         .expect(200, done);
     });
 
     it('should return 415 when badge format is incorrect', done => {
       request
-        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/badge.mov`)
+        .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka/badge.mov`)
         .expect(415, done);
     });
 
     it('should succeed when groupId, artifact and badge format is correct with gav set to true', done => {
       request
-          .get(`/${PATH_PREFIX}/com.typesafe.akka/akka-streams/badge.png?gav=true`)
+          .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka-streams/badge.png?gav=true`)
           .expect('Content-Type', 'image/png')
           .expect(200, done);
     });
@@ -62,14 +62,14 @@ describe('http endpoints', () => {
   describe('GET last_version', () => {
     it('should return artifact\'s last version number in plain text', done => {
       request
-        .get(`/${PATH_PREFIX}/com.typesafe.akka/akka-streams/last_version`)
+        .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka-streams/last_version`)
         .expect('Content-Type', 'text/html; charset=utf-8')
         .expect(200, done);
     });
 
     it('should return 404 for non-existing group/artifact', done => {
       request
-        .get(`/${PATH_PREFIX}/non.existing/artifact/last_version`)
+        .get(`/${MAVEN_CENTRAL_PREFIX}/non.existing/artifact/last_version`)
         .expect(404, done);
     });
   });
@@ -77,14 +77,14 @@ describe('http endpoints', () => {
   describe('GET info about group/artifact', () => {
     it('should redirect to maven artifact details page', done => {
       request
-      .get(`/${PATH_PREFIX}/com.typesafe.akka/akka/?`)
+      .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka/?`)
       .expect('location', 'https://search.maven.org/artifact/com.typesafe.akka/akka/2.2.0-RC2/jar?eh=')
       .expect(302, done);
     });
 
     it('should redirect to maven search page', done => {
       request
-      .get(`/${PATH_PREFIX}/non.existing/artifact?`)
+      .get(`/${MAVEN_CENTRAL_PREFIX}/non.existing/artifact?`)
       .expect('location', 'https://search.maven.org/search?q=g:non.existing+AND+a:artifact')
       .expect(302, done);
     });

@@ -1,8 +1,11 @@
 import { AxiosStatic } from 'axios';
 import { RedisClientType } from 'redis';
+import { Logger } from "heroku-logger";
 
 const BASE_URI = 'http://img.shields.io';
 const TTL = 60 * 60 * 12;
+
+const logger = new Logger({ prefix: 'shields: ' });
 
 const encode = (input: string) => input.replace(/_/g, '__').replace(/\s/g, '_').replace(/-/g, '--');
 
@@ -12,7 +15,7 @@ export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClient
   try {
     const serializedImageBuffer = await redisClient.get(url);
     if (serializedImageBuffer) {
-      console.log(`serving ${url} badge from cache`);
+      logger.info(`Serving ${url} badge from cache`);
       await redisClient.expire(url, TTL); // refresh expiry time
       return Buffer.from(serializedImageBuffer, 'hex');
     }
@@ -22,9 +25,9 @@ export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClient
     });
 
     await redisClient.set(url, buffer.toString('hex'), { EX: TTL }); // sets an expiry time to 12h
-    console.log(`saved ${url} badge to cache`);
+    logger.info(`saved ${url} badge to cache`);
     return buffer;
   } catch (error) {
-    console.log(error);
+    logger.error(`Error when preparing a badge: ${error}`);
   }
 }
