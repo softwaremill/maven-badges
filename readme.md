@@ -14,8 +14,14 @@ However, most of them are not usable for Java/Groovy guys and that’s quite sad
 ## Usage
 
 ```
-https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
+https://maven-badges.herokuapp.com/{repository}/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
 ```
+
+where `repository` is one of:
+ - `maven-central` points to https://search.maven.org/
+ - `sonatype-central` points to https://central.sonatype.com/
+
+use repository where your artifact is published to.
 
 where `style` can be one of:
  - `plastic`
