@@ -6,12 +6,13 @@
     "node": ">=18"
   },
   "scripts": {
+    "clean": "rm -rf dist",
+    "preinstall": "npm run clean",
     "watch": "tsc -w",
     "build": "tsc",
     "serve": "nodemon --inspect --watch dist/ -d 1 ./dist/main.js",
     "test": "npm run build && mocha dist/test --timeout 15000 --exit",
-    "start": "node ./dist/main.js",
-    "postinstall": "npm run build"
+    "start": "node ./dist/main.js"
   },
   "author": "marcin.baraniecki@softwaremill.com",
   "license": "Apache-2.0",
@@ -19,8 +20,7 @@
     "@types/redis": "^4.0.11",
     "axios": "^1.8.3",
     "express": "^4.21.2",
-    "heroku-logger": "^0.3.3",
-    "redis": "^4.7.0"
+    "heroku-logger": "^0.3.3"
   },
   "devDependencies": {
     "@types/chai": "^5.2.0",
