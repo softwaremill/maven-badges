@@ -1,6 +1,6 @@
 services:
   redis:
-    image: "redis:latest"
+    image: "redis:7.4.2-alpine3.21"
     container_name: "maven-badges-redis"
     ports:
       - "6379:6379"
