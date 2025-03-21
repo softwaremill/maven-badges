@@ -1,13 +1,31 @@
 services:
   redis:
-    image: redis:latest
-    container_name: maven-badges-redis
+    image: "redis:latest"
+    container_name: "maven-badges-redis"
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
     command: redis-server --save 60 1 --loglevel warning
     restart: unless-stopped
+    networks:
+      - default
+
+  maven-badges:
+    depends_on:
+      - redis
+    build: .
+    container_name: "maven-badges"
+    image: "maven-badges"
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    environment:
+      - REDIS_URL=redis://redis:6379
 
 volumes:
   redis-data:
+
+networks:
+  default:
