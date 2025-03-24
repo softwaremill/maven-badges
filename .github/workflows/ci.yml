@@ -44,6 +44,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: [test]
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
       - name: Authenticate to gcloud
@@ -59,8 +60,8 @@ jobs:
       - name: Build Docker image and push to GAR
         env:
           IMAGE_TAG: v1.0.${{ github.run_number }}
-          AR_REGISTRY: europe-west2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/maven-badges
+          AR_REPO: europe-west2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/maven-badges/maven-badges
         run: |
-          docker build -t $AR_REGISTRY:$IMAGE_TAG -t $AR_REGISTRY:latest .
-          docker push $AR_REGISTRY:$IMAGE_TAG
-          docker push $AR_REGISTRY:latest
+          docker build -t $AR_REPO:$IMAGE_TAG -t $AR_REPO:latest .
+          docker push $AR_REPO:$IMAGE_TAG
+          docker push $AR_REPO:latest
