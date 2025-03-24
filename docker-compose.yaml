@@ -6,7 +6,7 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
-    command: redis-server --save 60 1 --loglevel warning
+    command: redis-server --save 60 1 --loglevel warning --requirepass ChangeMe
     restart: unless-stopped
     networks:
       - default
@@ -22,7 +22,7 @@ services:
     networks:
       - default
     environment:
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://:ChangeMe@redis:6379
 
 volumes:
   redis-data:
