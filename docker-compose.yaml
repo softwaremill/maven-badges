@@ -23,6 +23,7 @@ services:
       - default
     environment:
       - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=ChangeMe
 
 volumes:
   redis-data:
