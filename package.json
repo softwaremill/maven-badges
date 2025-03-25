@@ -23,7 +23,7 @@
     "heroku-logger": "^0.3.3"
   },
   "devDependencies": {
-    "@types/chai": "^5.2.0",
+    "@types/chai": "^5.2.1",
     "@types/express": "^5.0.1",
     "@types/heroku-logger": "^1.0.3",
     "@types/mocha": "^10.0.10",
