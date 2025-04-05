@@ -11,10 +11,26 @@ Badges! These tiny pictures with label and some numbers, you see them in many Gi
 Travis, Coveralls, Code Climate, Gemnasium, Gem, PyPi, npm…
 However, most of them are not usable for Java/Groovy guys and that’s quite sad, isn’t it?
 
+## A new DNS name
+
+We migrated the service into our kubernetes cluster as we would like to close the Heroku instance at some point in the future.
+Please use the new url, also existing Heroku instance is going to redirect to the new DNS.
+
+Please use
+```
+https://maven-badges.sml.io
+```
+
+instead of deprecated
+
+```
+https://maven-badges.herokuapp.com
+```
+
 ## Usage
 
 ```
-https://maven-badges.herokuapp.com/{repository}/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
+https://maven-badges.sml.io/{repository}/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
 ```
 
 where `repository` is one of:
@@ -38,35 +54,35 @@ You can try to use `gav=true` parameter to bypass semver problem - when some art
 and some don't, in such case try to use `gav`:
 
 ```
-https://maven-badges.herokuapp.com/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&gav=true
+https://maven-badges.sml.io/maven-central/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&gav=true
 ```
 
 ### Hardcode version
 
 You can also specify exact version to show on badge, just use `?version=x.x.x` as  follow:
 ```
-https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0
+https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0
 ```
 
 ### Examples
 
 ```
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 ```
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 
 ```
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 ```
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 
 ```
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg=version=2.0.0)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg=version=2.0.0)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 ```
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
 
 ## Development
 
