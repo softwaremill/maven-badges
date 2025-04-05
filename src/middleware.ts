@@ -1,5 +1,6 @@
 import { validateFormat } from './validation';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { config } from "./config";
 
 export class HttpError extends Error {
   private statusCode: number;
@@ -19,3 +20,11 @@ export const lowerCaseFormatMiddleware = (req: Request, _res: Response, next: Ne
 
 export const validateFormatMiddleware = (req: Request, res: Response, next: NextFunction) =>
   validateFormat(req.params.format) ? next() : next(new HttpError(415, 'Invalid format'));
+
+export const optionalRedirect = (req: Request, res: Response, next: NextFunction) => {
+  console.log(JSON.stringify(config))
+
+  config.isRedirect()
+    ? res.redirect(301, `${config.redirectUrl}${req.originalUrl}`)
+    : next()
+};

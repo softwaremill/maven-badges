@@ -1,12 +1,12 @@
 import { createClient, RedisClientType } from 'redis';
 import axios from 'axios';
-import { PORT, REDIS_URL } from './config';
+import { config } from './config';
 import { createServer } from './server';
 
 const redisClient: RedisClientType = createClient({
-  url: REDIS_URL,
+  url: config.redisUrl,
   socket: {
-    tls: (REDIS_URL.match(/rediss:/) != null),
+    tls: (config.redisUrl.match(/rediss:/) != null),
     rejectUnauthorized: false,
   }
 });
@@ -14,7 +14,7 @@ const redisClient: RedisClientType = createClient({
 redisClient.connect().then(() => {
   const app = createServer(axios, redisClient);
 
-  app.listen(PORT, () => {
-    console.log(`server ready on port ${PORT}`);
+  app.listen(config.redisPort, () => {
+    console.log(`server ready on port ${config.redisPort}`);
   });
 });
