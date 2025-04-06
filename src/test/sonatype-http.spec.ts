@@ -84,7 +84,7 @@ describe('sonatype central http endpoints', () => {
 
     it('should redirect to maven search page', done => {
       request
-        .get(`/${SONATYPE_CENTRAL_PREFIX}/non.existing/artifact?`)
+        .get(`/${SONATYPE_CENTRAL_PREFIX}/non.existing/artifact/?`)
         .expect('location', 'https://central.sonatype.com/search?q=g:non.existing+AND+a:artifact')
         .expect(302, done);
     });
