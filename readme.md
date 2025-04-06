@@ -11,10 +11,10 @@ Badges! These tiny pictures with label and some numbers, you see them in many Gi
 Travis, Coveralls, Code Climate, Gemnasium, Gem, PyPi, npm…
 However, most of them are not usable for Java/Groovy guys and that’s quite sad, isn’t it?
 
-## A new DNS name
+## A new DNS address
 
 We migrated the service into our kubernetes cluster as we would like to close the Heroku instance at the end of this year 2025.
-Please use the new url, also the existing Heroku instance is going to redirect to the new DNS.
+Please use a new url from now on, also the existing Heroku instance is going to redirect to the new DNS address.
 
 > NOTE: the old url is going to be available until the end of this year 2025.
 
