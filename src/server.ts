@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { lowerCaseFormatMiddleware, validateFormatMiddleware } from './middleware';
+import { lowerCaseFormatMiddleware, optionalRedirect, validateFormatMiddleware } from './middleware';
 import {
   getArtifactDetailsUrl,
   getDefinedArtifactVersion,
@@ -48,6 +48,8 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientType) 
       res.status(500).end();
     }
   }
+
+  app.use(optionalRedirect)
 
   app.get(`/${MAVEN_CENTRAL_PREFIX}/:group/:artifact/badge.:format`, [...allMiddlewares, async (req: any, res: any) => {
     await handleBadgeRequest(req, res, Repository.MAVEN_CENTRAL);
