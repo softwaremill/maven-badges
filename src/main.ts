@@ -14,7 +14,7 @@ const redisClient: RedisClientType = createClient({
 redisClient.connect().then(() => {
   const app = createServer(axios, redisClient);
 
-  app.listen(config.redisPort, () => {
-    console.log(`server ready on port ${config.redisPort}`);
+  app.listen(config.port, () => {
+    console.log(`Server ready on port ${config.port}`);
   });
 });

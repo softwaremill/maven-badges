@@ -22,8 +22,6 @@ export const validateFormatMiddleware = (req: Request, res: Response, next: Next
   validateFormat(req.params.format) ? next() : next(new HttpError(415, 'Invalid format'));
 
 export const optionalRedirect = (req: Request, res: Response, next: NextFunction) => {
-  console.log(JSON.stringify(config))
-
   config.isRedirect()
     ? res.redirect(301, `${config.redirectUrl}${req.originalUrl}`)
     : next()
