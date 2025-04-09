@@ -88,6 +88,13 @@ describe('sonatype central http endpoints', () => {
         .expect('location', 'https://central.sonatype.com/search?q=g:non.existing+AND+a:artifact')
         .expect(302, done);
     });
+
+    it('should redirect to maven search page without a backslash', done => {
+      request
+        .get(`/${SONATYPE_CENTRAL_PREFIX}/non.existing/artifact`)
+        .expect('location', 'https://central.sonatype.com/search?q=g:non.existing+AND+a:artifact')
+        .expect(302, done);
+    });
   });
 });
 

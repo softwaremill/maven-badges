@@ -95,7 +95,15 @@ export function createServer (axios: AxiosStatic, redisClient: RedisClientType) 
     await handleAnyVersionRequest(req, res, Repository.MAVEN_CENTRAL);
   });
 
+  app.get(`/${MAVEN_CENTRAL_PREFIX}/:group/:artifact`, async (req, res) => {
+    await handleAnyVersionRequest(req, res, Repository.MAVEN_CENTRAL);
+  });
+
   app.get(`/${SONATYPE_CENTRAL_PREFIX}/:group/:artifact/{:any}`, async (req, res) => {
+    await handleAnyVersionRequest(req, res, Repository.SONATYPE_CENTRAL);
+  });
+
+  app.get(`/${SONATYPE_CENTRAL_PREFIX}/:group/:artifact`, async (req, res) => {
     await handleAnyVersionRequest(req, res, Repository.SONATYPE_CENTRAL);
   });
 
