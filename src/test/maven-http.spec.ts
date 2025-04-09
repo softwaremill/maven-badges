@@ -88,6 +88,13 @@ describe('maven central http endpoints', () => {
       .expect('location', 'https://search.maven.org/search?q=g:non.existing+AND+a:artifact')
       .expect(302, done);
     });
+
+    it('should redirect to maven search page without a backslash', done => {
+      request
+      .get(`/${MAVEN_CENTRAL_PREFIX}/non.existing/artifact`)
+      .expect('location', 'https://search.maven.org/search?q=g:non.existing+AND+a:artifact')
+      .expect(302, done);
+    });
   });
 });
 
