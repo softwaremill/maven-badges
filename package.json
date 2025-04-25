@@ -27,7 +27,7 @@
     "@types/express": "^5.0.1",
     "@types/heroku-logger": "^1.0.3",
     "@types/mocha": "^10.0.10",
-    "@types/node": "~22.15.0",
+    "@types/node": "~22.15.2",
     "@types/redis-mock": "^0.17.3",
     "@types/supertest": "^6.0.3",
     "axios-mock-adapter": "^2.1.0",
