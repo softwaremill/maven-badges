@@ -28,7 +28,7 @@ export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string
 };
 
 export const getDefinedArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, version: string, repository: Repository = Repository.MAVEN_CENTRAL) => {
-  const { data } = await axios.get<any>(`${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}+AND+v:${version}&start&rows=1`);
+  const { data } = await axios.get<any>(`${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}+AND+v:${version}&start=0&rows=1`);
   const { response } = data;
   if (response.numFound > 0) {
     return response.docs[0].v;

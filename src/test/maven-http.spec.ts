@@ -2,7 +2,7 @@ import * as supertest from 'supertest';
 import * as redis from 'redis-mock';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { createServer, MAVEN_CENTRAL_PREFIX } from '../server';
+import { createServer, MAVEN_CENTRAL_PREFIX, SONATYPE_CENTRAL_PREFIX } from '../server';
 import {RedisClientType} from "redis";
 
 describe('maven central http endpoints', () => {
@@ -18,7 +18,13 @@ describe('maven central http endpoints', () => {
       .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1&core=gav')
       .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
+      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams+AND+v:2.1.0&start=0&rows=1')
+      .reply(200, {response: {numFound: 1, docs: [{v: '2.1.0'}]}});
+    mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
+      .reply(200, new Buffer([1, 2, 3]));
+    mockAxios
+      .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.1.0-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
 
     const mockRedisClient = redis.createClient({}) as unknown as RedisClientType;
@@ -71,6 +77,15 @@ describe('maven central http endpoints', () => {
       request
         .get(`/${MAVEN_CENTRAL_PREFIX}/non.existing/artifact/last_version`)
         .expect(404, done);
+    });
+  });
+
+  describe('GET fixed version', () => {
+    it('should return artifact\'s fixed version number', done => {
+      request
+        .get(`/${SONATYPE_CENTRAL_PREFIX}/com.typesafe.akka/akka-streams/badge.png?version=2.1.0`)
+        .expect('Content-Type', 'image/png')
+        .expect(200, done);
     });
   });
 
