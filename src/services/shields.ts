@@ -28,6 +28,6 @@ export const getBadgeImage = async (axios: AxiosStatic, redisClient: RedisClient
     logger.info(`saved ${url} badge to cache`);
     return buffer;
   } catch (error) {
-    logger.error(`Error when preparing a badge: ${error}`);
+    logger.error(`Error when preparing a badge [${url}]: ${error}`);
   }
 }
