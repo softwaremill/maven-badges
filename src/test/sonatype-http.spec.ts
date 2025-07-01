@@ -12,13 +12,13 @@ describe('sonatype central http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0')
-      .reply(200, {response: {numFound: 3, docs: [{v: '2.1.0', timestamp: 1745150305000}, {v: '2.0.0', timestamp: 1745150304000}, {v: '2.2.0', timestamp: 1745150306000}]}});
+      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0&rows=1')
+      .reply(200, {response: {numFound: 1, docs: [{latestVersion: '2.2.0-RC2'}]}});
     mockAxios
-      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&core=gav')
+      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1&core=gav')
       .reply(200, {response: {numFound: 1, docs: [{v: '2.2.0-RC2'}]}});
     mockAxios
-      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams+AND+v:2.1.0&start=0')
+      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams+AND+v:2.1.0&start=0&rows=1')
       .reply(200, {response: {numFound: 1, docs: [{v: '2.1.0'}]}});
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/sonatype_central-2.2.0--RC2-brightgreen.(png|svg)\?style=default/)
@@ -93,7 +93,7 @@ describe('sonatype central http endpoints', () => {
     it('should redirect to maven artifact details page', done => {
       request
         .get(`/${SONATYPE_CENTRAL_PREFIX}/com.typesafe.akka/akka/?`)
-        .expect('location', 'https://central.sonatype.com/artifact/com.typesafe.akka/akka/2.2.0/jar?eh=')
+        .expect('location', 'https://central.sonatype.com/artifact/com.typesafe.akka/akka/2.2.0-RC2/jar?eh=')
         .expect(302, done);
     });
 
