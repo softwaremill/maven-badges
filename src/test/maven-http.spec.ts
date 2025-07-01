@@ -12,10 +12,10 @@ describe('maven central http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0&rows=1')
-      .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '2.2.0-RC2' }] } });
+      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0')
+      .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
-      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1&core=gav')
+      .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&core=gav')
       .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
       .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams+AND+v:2.1.0&start=0&rows=1')
