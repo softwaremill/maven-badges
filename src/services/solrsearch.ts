@@ -23,7 +23,7 @@ export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string
   const { data } = await axios.get<any>(url);
   const { response } = data;
   if (response.numFound === 1) {
-    return response.docs[0].v;
+    return response.docs[0].latestVersion || response.docs[0].v;
   } else if (response.numFound > 1) {
     const sorted = response.docs.sort((v1: {v: string}, v2: {v: string}) => {
       return new ComparableVersion(v2.v).compareTo(new ComparableVersion(v1.v));

@@ -15,6 +15,9 @@ describe('maven central http endpoints', () => {
       .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0')
       .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
+      .onGet('https://search.maven.org/solrsearch/select?q=g:org.apache.struts+AND+a:struts2-core&start=0')
+      .reply(200, { response: { numFound: 1, docs: [{ latestVersion: '7.0.3', versionCount: 103 }] } });
+    mockAxios
       .onGet('https://search.maven.org/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&core=gav')
       .reply(200, { response: { numFound: 1, docs: [{ v: '2.2.0-RC2' }] } });
     mockAxios
@@ -25,6 +28,9 @@ describe('maven central http endpoints', () => {
       .reply(200, new Buffer([1, 2, 3]));
     mockAxios
       .onGet(/http:\/\/img.shields.io\/badge\/maven_central-2.1.0-brightgreen.(png|svg)\?style=default/)
+      .reply(200, new Buffer([1, 2, 3]));
+    mockAxios
+      .onGet(/http:\/\/img.shields.io\/badge\/maven_central-7.0.3-brightgreen.(png|svg)\?style=default/)
       .reply(200, new Buffer([1, 2, 3]));
 
     const mockRedisClient = redis.createClient({}) as unknown as RedisClientType;
@@ -62,6 +68,13 @@ describe('maven central http endpoints', () => {
           .get(`/${MAVEN_CENTRAL_PREFIX}/com.typesafe.akka/akka-streams/badge.png?gav=true`)
           .expect('Content-Type', 'image/png')
           .expect(200, done);
+    });
+
+    it('should succeed with latestVersion field from Maven Central API', done => {
+      request
+        .get(`/${MAVEN_CENTRAL_PREFIX}/org.apache.struts/struts2-core/badge.png`)
+        .expect('Content-Type', 'image/png')
+        .expect(200, done);
     });
   });
 
@@ -108,6 +121,13 @@ describe('maven central http endpoints', () => {
       request
       .get(`/${MAVEN_CENTRAL_PREFIX}/non.existing/artifact`)
       .expect('location', 'https://search.maven.org/search?q=g:non.existing+AND+a:artifact')
+      .expect(302, done);
+    });
+
+    it('should redirect to maven artifact details page using latestVersion field', done => {
+      request
+      .get(`/${MAVEN_CENTRAL_PREFIX}/org.apache.struts/struts2-core/?`)
+      .expect('location', 'https://search.maven.org/artifact/org.apache.struts/struts2-core/7.0.3/jar?eh=')
       .expect(302, done);
     });
   });
