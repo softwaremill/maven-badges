@@ -6,4 +6,3 @@ dist
 .npm-debug.log
 *.iml
 dump.rdb
-.claude
