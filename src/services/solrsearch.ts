@@ -1,5 +1,6 @@
 import { AxiosStatic } from 'axios';
 import { Logger } from 'heroku-logger';
+import { ComparableVersion } from '../version/comparable-version';
 
 const logger = new Logger({ prefix: 'solr-search: ' });
 
@@ -16,13 +17,19 @@ class NotFoundError extends Error {
 }
 
 export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, useGav: boolean = false, repository: Repository = Repository.MAVEN_CENTRAL) => {
-  const url = `${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0&rows=1${useGav ? '&core=gav' : ''}`
+  const url = `${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0${useGav ? '&core=gav' : ''}`
   logger.info(`Requesting url ${url}`);
 
   const { data } = await axios.get<any>(url);
   const { response } = data;
-  if (response.numFound > 0) {
+  if (response.numFound === 1) {
     return response.docs[0].latestVersion || response.docs[0].v;
+  } else if (response.numFound > 1) {
+    const sorted = response.docs.sort((v1: {v: string}, v2: {v: string}) => {
+      return new ComparableVersion(v2.v).compareTo(new ComparableVersion(v1.v));
+    });
+    logger.info(`Sorted: ${JSON.stringify(sorted)}`);
+    return sorted[0].v;
   }
   throw new NotFoundError();
 };
