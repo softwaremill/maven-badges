@@ -17,7 +17,7 @@ class NotFoundError extends Error {
 }
 
 export const getLastArtifactVersion = async (axios: AxiosStatic, groupId: string, artifact: string, useGav: boolean = false, repository: Repository = Repository.MAVEN_CENTRAL) => {
-  const url = `${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0${useGav ? '&core=gav' : ''}`
+  const url = `${repository}/solrsearch/select?q=g:${groupId}+AND+a:${artifact}&start=0&rows=1000${useGav ? '&core=gav' : ''}`
   logger.info(`Requesting url ${url}`);
 
   const { data } = await axios.get<any>(url);

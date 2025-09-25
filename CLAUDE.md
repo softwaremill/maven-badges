@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Maven-Badges Project Rules
 
 ## Testing
@@ -56,9 +60,37 @@
 3. **ENSURE** ComparableVersion sorting is consistent with Maven's rules
 4. **TEST** that Content-Type headers are properly set for all responses
 
+## Development Commands
+
+### Common Commands
+- `npm test` - Run all tests (automatically builds first)
+- `npm run build` - Compile TypeScript to JavaScript
+- `npm run watch` - Run TypeScript compiler in watch mode
+- `npm run serve` - Start development server with nodemon
+- `npm start` - Start production server
+
+### Development Setup
+- Requires Redis instance: `docker run -p 6379:6379 --name maven-badge-redis -d redis`
+- Use `npm run watch` and `npm run serve` in separate terminals for development
+
 ### Development Workflow
 1. Make code changes
 2. Run `npm test` to verify all tests pass
 3. Check logs for proper API calls and version sorting
 4. Verify both Maven Central and Sonatype Central functionality
 5. Ensure no Content-Type or redirect issues remain
+
+## Project Structure
+
+### Key Files
+- `src/main.ts` - Application entry point with Redis setup
+- `src/server.ts` - Express server setup with route handlers for both repositories
+- `src/services/solrsearch.ts` - Core logic for Maven/Sonatype API integration
+- `src/services/shields.ts` - Badge generation via shields.io
+- `src/version/comparable-version.ts` - Maven semantic versioning implementation
+- `src/middleware.ts` - Request validation and redirect handling
+
+### Repository Support
+- **Maven Central**: `/maven-central` endpoints using search.maven.org
+- **Sonatype Central**: `/sonatype-central` endpoints using central.sonatype.com
+- Both repositories share common badge generation logic but have different API behaviors
