@@ -12,10 +12,10 @@ describe('sonatype central http endpoints', () => {
   before(done => {
     const mockAxios = new MockAdapter(axios);
     mockAxios
-      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0')
+      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka&start=0&rows=1000')
       .reply(200, {response: {numFound: 3, docs: [{v: '2.2.0-RC2'}, {v: '2.2.0-RC1'}, {v: '2.3-B1'}]}});
     mockAxios
-      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&core=gav')
+      .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams&start=0&rows=1000&core=gav')
       .reply(200, {response: {numFound: 1, docs: [{v: '2.2.0-RC2'}]}});
     mockAxios
       .onGet('https://central.sonatype.com/solrsearch/select?q=g:com.typesafe.akka+AND+a:akka-streams+AND+v:2.1.0&start=0&rows=1')

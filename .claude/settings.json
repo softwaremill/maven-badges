@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git restore:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:search.maven.org)",
+      "mcp__jetbrains"
+    ],
+    "deny": []
+  }
+}
