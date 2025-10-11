@@ -32,7 +32,7 @@ https://maven-badges.herokuapp.com
 ## Usage
 
 ```
-https://maven-badges.sml.io/{repository}/{group_id}/{artifact_id}/badge.(svg|png)?style={style}
+https://maven-badges.sml.io/{repository}/{group_id}/{artifact_id}/badge.(svg|png)?style={style}&subject={label}&color={color}
 ```
 
 where `repository` is one of:
@@ -41,14 +41,31 @@ where `repository` is one of:
 
 use repository where your artifact is published to.
 
-where `style` can be one of:
- - `plastic`
- - `flat`
- - `flat-square`
- - `for-the-badge`
- - `social`
+### Query Parameters
 
-check [Styles](https://shields.io/#styles) section at [shields.io](https://shields.io/).
+All query parameters are optional:
+
+- **`style`** - Badge style, can be one of:
+  - `plastic`
+  - `flat` (default)
+  - `flat-square`
+  - `for-the-badge`
+  - `social`
+  
+  Check [Styles](https://shields.io/#styles) section at [shields.io](https://shields.io/).
+
+- **`subject`** - Custom label text for the badge
+  - Default: `"maven central"` or `"sonatype central"` (based on repository)
+  - Example: `?subject=My%20Library`
+
+- **`color`** - Badge color
+  - Default: `brightgreen`
+  - Can be any valid shields.io color (e.g., `blue`, `red`, `orange`, `yellow`, `green`, etc.)
+  - Example: `?color=blue`
+
+- **`version`** - Hardcode a specific version to display (see [Hardcode version](#hardcode-version) below)
+
+- **`gav`** - Use GAV search mode to bypass semver issues (see [No semver versions](#no-semver-versions) below)
 
 ### No semver versions
 
@@ -68,23 +85,40 @@ https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?
 
 ### Examples
 
+**Default badge:**
 ```
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
-```
-
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
-
-```
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
 ```
 
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?style=plastic)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
 
+**Custom style:**
 ```
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg=version=2.0.0)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?style=plastic)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
 ```
 
-[![Maven Central](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=2.0.0)](https://maven-badges.sml.io/maven-central/cz.jirutka.rsql/rsql-parser)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?style=plastic)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+
+**Hardcoded version:**
+```
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?version=0.0.1)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+```
+
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?version=0.0.1)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+
+**Custom label:**
+```
+[![STTP AI](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?subject=sttp%20ai)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+```
+
+[![STTP AI](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?subject=sttp%20ai)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+
+**Custom label and color:**
+```
+[![Latest Release](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?subject=Latest%20Release&color=blue)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
+```
+
+[![Latest Release](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/badge.svg?subject=Latest%20Release&color=blue)](https://maven-badges.sml.io/sonatype-central/com.softwaremill.sttp.ai/core_3/)
 
 ## Development
 
