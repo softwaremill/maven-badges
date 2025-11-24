@@ -15,7 +15,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v6.0.0
@@ -46,7 +46,7 @@ jobs:
     needs: [test]
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Authenticate to gcloud
         uses: google-github-actions/auth@v3
         with:
