@@ -19,12 +19,12 @@
   "dependencies": {
     "@types/redis": "^4.0.11",
     "axios": "^1.13.2",
-    "express": "^5.2.0",
+    "express": "^5.2.1",
     "heroku-logger": "^0.3.3"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",
-    "@types/express": "^5.0.5",
+    "@types/express": "^5.0.6",
     "@types/heroku-logger": "^1.0.3",
     "@types/mocha": "^10.0.10",
     "@types/node": "~24.10.1",
