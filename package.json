@@ -37,6 +37,6 @@
     "redis-mock": "^0.56.3",
     "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }
