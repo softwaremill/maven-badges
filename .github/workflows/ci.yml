@@ -11,6 +11,10 @@ on:
 
 concurrency: ci-${{ github.ref }}
 
+env:
+  GITOPS_REPO: softwaremill/sml-gitops
+  GITOPS_OVERLAY: apps/overlays/maven-badges
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -41,7 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-  build:
+  deploy:
     runs-on: ubuntu-latest
     needs: [test]
     if: github.ref == 'refs/heads/master'
@@ -57,11 +61,65 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
       - name: Authenticate to Artifact Registry
         run: gcloud auth configure-docker europe-west2-docker.pkg.dev
-      - name: Build Docker image and push to GAR
-        env:
-          IMAGE_TAG: v1.0.${{ github.run_number }}
-          AR_REPO: europe-west2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/maven-badges/maven-badges
+      - name: Resolve image tag
+        # Every later step reads these instead of re-composing the reference.
         run: |
-          docker build -t $AR_REPO:$IMAGE_TAG -t $AR_REPO:latest .
-          docker push $AR_REPO:$IMAGE_TAG
-          docker push $AR_REPO:latest
+          IMAGE_REPO="europe-west2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/maven-badges/maven-badges"
+          echo "IMAGE_REPO=${IMAGE_REPO}" >> "$GITHUB_ENV"
+          echo "IMAGE_FULL_TAG=${IMAGE_REPO}:v1.0.${{ github.run_number }}" >> "$GITHUB_ENV"
+      - name: Build Docker image and push to GAR
+        run: |
+          docker build -t "$IMAGE_FULL_TAG" -t "$IMAGE_REPO:latest" .
+          docker push "$IMAGE_FULL_TAG"
+          docker push "$IMAGE_REPO:latest"
+      - name: Verify published image exists
+        # Fail here rather than pinning Argo CD to an image that does not exist,
+        # which would otherwise only surface at rollout.
+        run: gcloud artifacts docker images describe "$IMAGE_FULL_TAG" > /dev/null
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.GHA_SML_GITOPS_APP_ID }}
+          private-key: ${{ secrets.GHA_SML_GITOPS_APP_KEY }}
+          owner: softwaremill
+          repositories: sml-gitops
+      - name: Checkout sml-gitops
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.GITOPS_REPO }}
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
+          path: sml-gitops
+          # Full history: the push retry below rebases onto main, which a
+          # shallow clone cannot do (no common ancestor after main moves).
+          # The repo is ~1 MiB packed, so this costs nothing.
+          fetch-depth: 0
+      - name: Update prod image tag
+        working-directory: sml-gitops/${{ env.GITOPS_OVERLAY }}
+        run: kustomize edit set image "$IMAGE_FULL_TAG"
+      - name: Commit and push
+        working-directory: sml-gitops
+        env:
+          TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$GITOPS_OVERLAY"
+          if git diff --cached --quiet; then
+            echo "Overlay already up to date — nothing to deploy."
+            exit 0
+          fi
+          git commit -m "Deploy ${IMAGE_FULL_TAG} (triggered by ${GITHUB_ACTOR})"
+          REMOTE="https://x-access-token:${TOKEN}@github.com/${GITOPS_REPO}.git"
+          # Other repositories push to this repo too; a rejected push is a race,
+          # not a failure, until it keeps happening.
+          for attempt in 1 2 3; do
+            if git push "$REMOTE" HEAD:main; then
+              exit 0
+            fi
+            echo "Push rejected (attempt ${attempt}/3) — rebasing onto latest main."
+            git pull --rebase "$REMOTE" main
+          done
+          echo "Could not push to ${GITOPS_REPO} after 3 attempts." >&2
+          exit 1
